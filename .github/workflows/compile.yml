@@ -1,0 +1,11 @@
+name: Compile Pawn
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        uses: southclaws/sampctl-action@master
+        with:
+          pawncc_args: "-i./pawno/include" # Инклудтар қайда екенін көрсет
