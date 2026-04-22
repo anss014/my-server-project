@@ -1,11 +1,24 @@
 name: Compile Pawn
 on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Compile
-        uses: southclaws/sampctl-action@master
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Pawn Compiler
+        uses: pablomstk/pawn-compile-action@master
         with:
-          pawncc_args: "-i./pawno/include" # Инклудтар қайда екенін көрсет
+          # Модтың жолын және инклудтарды көрсет
+          pawn-version: "3.10.10"
+          input: "gamemodes/anss.pwn" # ОСЫ ЖЕРГЕ .pwn ФАЙЛЫНЫҢ АТЫН ЖАЗ
+          include: "pawno/include"
+          output: "gamemodes/anss.amx" 
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-mod
+          path: gamemodes/*.amx
